@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>2025427 | Hexo</title>
+  <title>PM-ABE：用于秘密共享的可穿刺双边细粒度格访问控制 | Hexo</title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   
-  <meta property="og:type" content="article">
-<meta property="og:title" content="2025427">
+  <meta name="description" content="@TOC 文献M. Yang, H. Wang and D. He, “PM-ABE: Puncturable Bilateral Fine-Grained Access Control From Lattices for Secret Sharing,” in IEEE Transactions on Dependable and Secure Computing, vol. 22, no. 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PM-ABE：用于秘密共享的可穿刺双边细粒度格访问控制">
 <meta property="og:url" content="http://example.com/2025/04/27/2025-4-27/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="@TOC 文献M. Yang, H. Wang and D. He, “PM-ABE: Puncturable Bilateral Fine-Grained Access Control From Lattices for Secret Sharing,” in IEEE Transactions on Dependable and Secure Computing, vol. 22, no. 2">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-27T01:59:54.000Z">
-<meta property="article:modified_time" content="2025-04-27T01:59:54.471Z">
+<meta property="article:modified_time" content="2025-04-27T08:23:55.258Z">
 <meta property="article:author" content="zhy">
 <meta name="twitter:card" content="summary">
   
@@ -216,7 +218,7 @@
   
   
     <h1 class="article-title" itemprop="name">
-      2025427
+      PM-ABE：用于秘密共享的可穿刺双边细粒度格访问控制
     </h1>
   
 
@@ -242,7 +244,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">0字</span>
+      <span class="post-count">2k字</span>
     </span>
   </span>
 
@@ -251,7 +253,7 @@
     <span class="post-meta-item-icon">
       <i class="icon-book icon"></i>
       <span class="post-meta-item-text"> 阅读时长≈</span>
-      <span class="post-count">1分</span>
+      <span class="post-count">7分</span>
     </span>
   </span>
 </div>
@@ -262,7 +264,39 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    
+    <p>@<a href="PM-ABE：用于秘密共享的可穿刺双边细粒度格访问控制">TOC</a></p>
+<h1 id="文献"><a href="#文献" class="headerlink" title="文献"></a>文献</h1><p>M. Yang, H. Wang and D. He, “PM-ABE: Puncturable Bilateral Fine-Grained Access Control From Lattices for Secret Sharing,” in IEEE Transactions on Dependable and Secure Computing, vol. 22, no. 2, pp. 1210-1223, 2025.</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>在可持续智慧城市蓬勃发展的时代，随着互联网的可接入性和分布式计算的持续演进，人们越来越依赖云雾计算环境和在线数据存储平台实现数据安全共享。然而，现有的密码方案在同时满足双边细粒度访问控制、抗量子攻击、保证解密数据的真实性和历史数据的前向安全性等安全需求方面存在不足。为了应对这些挑战，我们提出了<strong>基于格密码的可穿刺属性匹配加密方案</strong>。该方法很好地同时满足了上述严格的安全需求，为秘密共享的安全实现提供了三重保障。接收者无法成功解密，仍然不知道关于密文和访问策略的任何具体信息。我们的PM - ABE方案具有抵抗量子攻击、合谋攻击、选择明文攻击和选择消息攻击下的不可伪造性。此外，我们的综合效率分析证实了我们的方案保持了良好的计算效率和存储消耗水平。</p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>有效解决保护数据隐私和保障数据安全的难题，同时增强数据共享的灵活性，是一个热门的研究课题。</p>
+<p>基于属性加密( Attribute-Based Encryption，ABE )的引入为解决上述挑战提供了新的视角。尽管支持ABE方案的研究是稳健的，但它们始终局限于数据所有者单方面决定访问策略的情况，体现了访问控制的单方面表现。同时，这些方案缺乏对数据源真实性的验证能力，无法保证数据在上传到共享平台后保持不变或未被编辑。</p>
+<p>为了建立双边访问控制，维护数据所有者和接收者之间的平等，dual-policy ABE的概念被明确提出（2010）。<br>Ateniese等人（2019）借鉴秘密握手协议的原理，提出了匹配加密( ME )方案的概念。<br>然而，传统的ME将访问条件限制在表示身份的字符串上，本质上仅仅依赖于身份匹配。尽管实现了双边访问控制，这种控制缺乏细粒度的特异性，要求数据拥有者和接收者拥有对方身份信息的知识，从而产生了一对一的数据共享范式。</p>
+<p>近年来，在一些研究中出现了整合ME和ABE的探索。这些集成方案继承了ME和ABE各自的优点，在保证数据真实性的同时方便了双向细粒度访问控制。先前讨论的方案有一个共同的局限性：在密钥暴露的情况下，没有办法保证过去数据的机密性。<br>目前存在的、旨在解决密钥泄露时历史数据机密性的加密原语包括前向安全加密和精准加密。</p>
+<p>将匹配加密与可穿刺属性基加密相结合，建立了一个三层的安全数据共享框架。<br>这种严格的访问控制方案特别适用于涉及高级别机密共享的场景。</p>
+<p>（目前有基于格可穿刺的CP-ABE方案）</p>
+<h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>示例：执法调查领域内的情报共享的背景（ABE—-&gt;dual-ABE—-&gt;+puncturable encryption）</p>
+<p>在执法和刑事侦查领域，便衣警察或卧底线人对黑社会性质组织的渗透屡见不鲜。卧底情报人员对收集到的情报和信息进行及时的沟通，对遏制犯罪行为至关重要。通过移动设备使用传统的单点通信方式增加了身份暴露的风险。</p>
+<p>为了降低这种风险，卧底线人可以采取适当的访问策略。这些政策可能包括来自行政区域的专门行动小组的警官，内嵌于卧底小组的其他线人，或监督卧底行动的相关领导人。值得注意的是，卧底线人一般不需要明确知道这些实体的具体身份，他们的重点在于识别指定的属性。</p>
+<p>因此，ABE成为促进安全的一对多智能共享的可行解决方案。在这种方法下，卧底线人加密他们的数据，并将其上传至类似”公告板”的平台。他们通过这些公共平台模糊情报，并等待外部响应者提取数据。</p>
+<p>对于相应的接收者来说，他们不愿意在”公告板”内解密不相关的密文，浪费时间和计算资源。他们还担负着证明情报源的准确性和可靠性的任务。因此，他们要将解密对象仅限于卧底线人。通过授予接收者制定访问政策的权限，他们可以精确地圈定和筛选解密目标，从而确保情报的真实性。</p>
+<p>由于持续存在的网络威胁，确保相关数据接收者的密钥安全成为一项艰巨的挑战。在密钥暴露的情况下，犯罪分子可以利用这些密钥，继承授予相关警务人员的访问权限，并泄露关键信息。数据接收者缺乏删除”公告板”上密文的权限，因此需要考虑在其密钥泄露的情况下防止对敏感数据的非授权访问。在此背景下，穿刺加密是一种有效的解决方案。在密文成功解密后，数据接收者迅速撤销对解密内容的访问。即使在密钥泄露的情况下，也会阻止对数据的非授权访问，加强了安全措施。</p>
+<p>同时，量子计算机的不断发展对传统密码方案的安全性构成了越来越大的威胁。因此，采用后量子密码方案成为一种明智的准备措施。</p>
+<h2 id="Contribution"><a href="#Contribution" class="headerlink" title="Contribution"></a>Contribution</h2><p>利用格密码实现ABE、ME和puncturable encryption的深度融合。</p>
+<p>缺乏访问权限的数据接收者对任何关于明文和访问策略的信息保持不敏感。</p>
+<p>提供了严格的安全性证明，以建立所提出的方案对量子攻击，共谋攻击，IND-CPA和选择消息攻击下的不可伪造性(EUF-CMA)的弹性。</p>
+<h1 id="PRELIMINARIES"><a href="#PRELIMINARIES" class="headerlink" title="PRELIMINARIES"></a>PRELIMINARIES</h1><h2 id="Lattice"><a href="#Lattice" class="headerlink" title="Lattice"></a>Lattice</h2><p>整数格$\Lambda$</p>
+<p>LWE（Learning With Errors）：敌手无法区别带有噪声的LWE样本As+e和真正的随机样本。</p>
+<p>SVP：格L中找到一个最短的非零向量v，即找到v∈L，使得‖v‖最小。</p>
+<p>CVP：寻找使‖t-v‖达到最小的向量v 。（t通常不是格点）</p>
+<p>SIVP（Shortest Independent Vectors Problem，最短独立向量问题）:求解$Av=u$，v的欧氏范数小于多项式大小。SIVP是找<br>n个较短且无关的向量。</p>
+<p>噪声分布：$\Psi_\alpha$分布生成的噪声 $e\in [0,1)$,绝对值较小（集中在0附近），但足够掩盖格的结构。</p>
+<h2 id="陷门函数"><a href="#陷门函数" class="headerlink" title="陷门函数"></a>陷门函数</h2><p>$TrapGen(n, m, q):$当提供安全参数n时，一个素数q，m&gt;2nlog q，算法输出矩阵$A \in \mathbb{Z}_q^{n \times m}$和$T \in \mathbb{Z}_q^{m \times m}$，满足AT=0。T是$\Lambda_q^\bot(A)$的基</p>
+<p>$SampleP re(A, T , σ, u):$算法输出服从高斯分布的采样e，满足$Ae=u \mod q$</p>
+<p>$N ewBasisDel(A, R, T_ A, δ):$ $T_A$是$\Lambda_q^\bot(A)$的短基，输出$\Lambda_q^\bot(AR^{-1})$的短基。</p>
+<p>$SampleZ(s, c, n):$ 在一维整数格 Z 上采样</p>
+<p>$SampleD(Λ, T , c, l):$ 在高维格 Λ 上采样，基于“最近平面算法”。</p>
+<h1 id="SCHEME"><a href="#SCHEME" class="headerlink" title="SCHEME"></a>SCHEME</h1><p>$Setup(n)→PP, MSK:$</p>
+<p>KGC选择全局属性集U和允许的标签集合Tags。</p>
+
     
 
     
@@ -276,7 +310,7 @@
         </li>
         <li>
           <strong>本文链接：</strong>
-          <a href="http://example.com/2025/04/27/2025-4-27/" title="2025427" target="_blank">http://example.com/2025/04/27/2025-4-27/</a>
+          <a href="http://example.com/2025/04/27/2025-4-27/" title="PM-ABE：用于秘密共享的可穿刺双边细粒度格访问控制" target="_blank">http://example.com/2025/04/27/2025-4-27/</a>
         </li>
         
         <li>
@@ -379,6 +413,19 @@
             </div>
         </div>
         
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%87%E7%8C%AE"><span class="toc-number">1.</span> <span class="toc-text">文献</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%91%98%E8%A6%81"><span class="toc-number">2.</span> <span class="toc-text">摘要</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">3.</span> <span class="toc-text">Introduction</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Motivation"><span class="toc-number">3.1.</span> <span class="toc-text">Motivation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contribution"><span class="toc-number">3.2.</span> <span class="toc-text">Contribution</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#PRELIMINARIES"><span class="toc-number">4.</span> <span class="toc-text">PRELIMINARIES</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Lattice"><span class="toc-number">4.1.</span> <span class="toc-text">Lattice</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%99%B7%E9%97%A8%E5%87%BD%E6%95%B0"><span class="toc-number">4.2.</span> <span class="toc-text">陷门函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#SCHEME"><span class="toc-number">5.</span> <span class="toc-text">SCHEME</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
         
     </div>
 </aside>
