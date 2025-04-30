@@ -75,7 +75,7 @@
 			
 				<li><a href="/" target="_blank">主页</a></li>
 			
-				<li><a href="https://zhousiwei.gitee.io/ibooks/" target="_blank">技术笔记</a></li>
+				<li><a href="/null" target="_blank">技术笔记</a></li>
 			
 				<li><a href="/tags/%E9%9A%8F%E7%AC%94/" target="_blank">随笔</a></li>
 			
@@ -193,7 +193,7 @@
 				
 					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
 		        
-					<li style="width: 33.333333333333336%"><a target="_blank" rel="noopener" href="https://zhousiwei.gitee.io/ibooks/">技术笔记</a></li>
+					<li style="width: 33.333333333333336%"><a href="/null">技术笔记</a></li>
 		        
 					<li style="width: 33.333333333333336%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
 		        
@@ -243,7 +243,7 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>[TOC]</p>
+    <p>[toc]</p>
 <h1 id="文献"><a href="#文献" class="headerlink" title="文献"></a>文献</h1><p>M. Yang, H. Wang and D. He, “PM-ABE: Puncturable Bilateral Fine-Grained Access Control From Lattices for Secret Sharing,” in IEEE Transactions on Dependable and Secure Computing, vol. 22, no. 2, pp. 1210-1223, 2025.</p>
 <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>在可持续智慧城市蓬勃发展的时代，随着互联网的可接入性和分布式计算的持续演进，人们越来越依赖云雾计算环境和在线数据存储平台实现数据安全共享。然而，现有的密码方案在同时满足双边细粒度访问控制、抗量子攻击、保证解密数据的真实性和历史数据的前向安全性等安全需求方面存在不足。为了应对这些挑战，我们提出了<strong>基于格密码的可穿刺属性匹配加密方案</strong>。该方法很好地同时满足了上述严格的安全需求，为秘密共享的安全实现提供了三重保障。接收者无法成功解密，仍然不知道关于密文和访问策略的任何具体信息。我们的PM - ABE方案具有抵抗量子攻击、合谋攻击、选择明文攻击和选择消息攻击下的不可伪造性。此外，我们的综合效率分析证实了我们的方案保持了良好的计算效率和存储消耗水平。</p>
 <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>有效解决保护数据隐私和保障数据安全的难题，同时增强数据共享的灵活性，是一个热门的研究课题。</p>
@@ -792,6 +792,35 @@
   </div>
 
   
+<script type="text/javascript" src="/plugins/TweenMax/TweenMax.min.js"></script>
+<script type="text/javascript" src="/plugins/TweenMax/HoverImg.js"></script>
+
+<script>
+
+
+  var hoverEffect = {
+    "subNav": ".left-col .social a"
+  }
+
+
+  for (var x in hoverEffect) {
+    // 初始化data-img属性值
+    let $em = document.querySelectorAll(hoverEffect[x]);
+    $em.forEach(($a) => {
+      //console.log($a.href);
+      if (isImageType($a.href)) {
+        $a.setAttribute("data-img", $a.href)
+      }
+    })
+    // 实现悬停元素预览图片效果
+    let $a = document.querySelectorAll(hoverEffect[x] + "[data-img]");
+    $a.forEach(($em) => {
+      new HoverImgFx1($em)
+    })
+  }
+
+</script>
+
   
 <script type="text/javascript" src="/plugins/activate-power-mode/activate-power-mode.js"></script>
 <script>
