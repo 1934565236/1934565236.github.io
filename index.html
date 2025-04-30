@@ -243,7 +243,7 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>@<a href="PM-ABE：用于秘密共享的可穿刺双边细粒度格访问控制">TOC</a></p>
+    <p>[TOC]</p>
 <h1 id="文献"><a href="#文献" class="headerlink" title="文献"></a>文献</h1><p>M. Yang, H. Wang and D. He, “PM-ABE: Puncturable Bilateral Fine-Grained Access Control From Lattices for Secret Sharing,” in IEEE Transactions on Dependable and Secure Computing, vol. 22, no. 2, pp. 1210-1223, 2025.</p>
 <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>在可持续智慧城市蓬勃发展的时代，随着互联网的可接入性和分布式计算的持续演进，人们越来越依赖云雾计算环境和在线数据存储平台实现数据安全共享。然而，现有的密码方案在同时满足双边细粒度访问控制、抗量子攻击、保证解密数据的真实性和历史数据的前向安全性等安全需求方面存在不足。为了应对这些挑战，我们提出了<strong>基于格密码的可穿刺属性匹配加密方案</strong>。该方法很好地同时满足了上述严格的安全需求，为秘密共享的安全实现提供了三重保障。接收者无法成功解密，仍然不知道关于密文和访问策略的任何具体信息。我们的PM - ABE方案具有抵抗量子攻击、合谋攻击、选择明文攻击和选择消息攻击下的不可伪造性。此外，我们的综合效率分析证实了我们的方案保持了良好的计算效率和存储消耗水平。</p>
 <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>有效解决保护数据隐私和保障数据安全的难题，同时增强数据共享的灵活性，是一个热门的研究课题。</p>
@@ -251,7 +251,7 @@
 <p>为了建立双边访问控制，维护数据所有者和接收者之间的平等，dual-policy ABE的概念被明确提出（2010）。<br>Ateniese等人（2019）借鉴秘密握手协议的原理，提出了匹配加密( ME )方案的概念。<br>然而，传统的ME将访问条件限制在表示身份的字符串上，本质上仅仅依赖于身份匹配。尽管实现了双边访问控制，这种控制缺乏细粒度的特异性，要求数据拥有者和接收者拥有对方身份信息的知识，从而产生了一对一的数据共享范式。</p>
 <p>近年来，在一些研究中出现了整合ME和ABE的探索。这些集成方案继承了ME和ABE各自的优点，在保证数据真实性的同时方便了双向细粒度访问控制。先前讨论的方案有一个共同的局限性：在密钥暴露的情况下，没有办法保证过去数据的机密性。<br>目前存在的、旨在解决密钥泄露时历史数据机密性的加密原语包括前向安全加密和精准加密。</p>
 <p>将匹配加密与可穿刺属性基加密相结合，建立了一个三层的安全数据共享框架。<br>这种严格的访问控制方案特别适用于涉及高级别机密共享的场景。</p>
-<p>（目前有基于格可穿刺的CP-ABE方案）</p>
+<p>（目前有基于格可穿刺的CP-ABE方案和基于格可穿刺的kP-ABE [2022]）</p>
 <h2 id="Motivation"><a href="#Motivation" class="headerlink" title="Motivation"></a>Motivation</h2><p>示例：执法调查领域内的情报共享的背景（ABE—-&gt;dual-ABE—-&gt;+puncturable encryption）</p>
 <p>在执法和刑事侦查领域，便衣警察或卧底线人对黑社会性质组织的渗透屡见不鲜。卧底情报人员对收集到的情报和信息进行及时的沟通，对遏制犯罪行为至关重要。通过移动设备使用传统的单点通信方式增加了身份暴露的风险。</p>
 <p>为了降低这种风险，卧底线人可以采取适当的访问策略。这些政策可能包括来自行政区域的专门行动小组的警官，内嵌于卧底小组的其他线人，或监督卧底行动的相关领导人。值得注意的是，卧底线人一般不需要明确知道这些实体的具体身份，他们的重点在于识别指定的属性。</p>
@@ -262,19 +262,67 @@
 <h2 id="Contribution"><a href="#Contribution" class="headerlink" title="Contribution"></a>Contribution</h2><p>利用格密码实现ABE、ME和puncturable encryption的深度融合。</p>
 <p>缺乏访问权限的数据接收者对任何关于明文和访问策略的信息保持不敏感。</p>
 <p>提供了严格的安全性证明，以建立所提出的方案对量子攻击，共谋攻击，IND-CPA和选择消息攻击下的不可伪造性(EUF-CMA)的弹性。</p>
-<h1 id="PRELIMINARIES"><a href="#PRELIMINARIES" class="headerlink" title="PRELIMINARIES"></a>PRELIMINARIES</h1><h2 id="Lattice"><a href="#Lattice" class="headerlink" title="Lattice"></a>Lattice</h2><p>整数格$\Lambda$</p>
+<h1 id="PRELIMINARIES"><a href="#PRELIMINARIES" class="headerlink" title="PRELIMINARIES"></a>PRELIMINARIES</h1><h2 id="Lattice"><a href="#Lattice" class="headerlink" title="Lattice"></a>Lattice</h2><p>整数格$\Lambda$ : 格是离散的、周期性的点集，由一组线性无关的向量（称为基，basis）的整数线性组合生成,其基向量和所有格点。</p>
 <p>LWE（Learning With Errors）：敌手无法区别带有噪声的LWE样本As+e和真正的随机样本。</p>
 <p>SVP：格L中找到一个最短的非零向量v，即找到v∈L，使得‖v‖最小。</p>
 <p>CVP：寻找使‖t-v‖达到最小的向量v 。（t通常不是格点）</p>
 <p>SIVP（Shortest Independent Vectors Problem，最短独立向量问题）:求解$Av=u$，v的欧氏范数小于多项式大小。SIVP是找<br>n个较短且无关的向量。</p>
-<p>噪声分布：$\Psi_\alpha$分布生成的噪声 $e\in [0,1)$,绝对值较小（集中在0附近），但足够掩盖格的结构。</p>
 <h2 id="陷门函数"><a href="#陷门函数" class="headerlink" title="陷门函数"></a>陷门函数</h2><p>$TrapGen(n, m, q):$当提供安全参数n时，一个素数q，m&gt;2nlog q，算法输出矩阵$A \in \mathbb{Z}_q^{n \times m}$和$T \in \mathbb{Z}_q^{m \times m}$，满足AT=0。T是$\Lambda_q^\bot(A)$的基</p>
-<p>$SampleP re(A, T , σ, u):$算法输出服从高斯分布的采样e，满足$Ae=u \mod q$</p>
-<p>$N ewBasisDel(A, R, T_ A, δ):$ $T_A$是$\Lambda_q^\bot(A)$的短基，输出$\Lambda_q^\bot(AR^{-1})$的短基。</p>
+<p>$SamplePre(A, T , σ, u):$算法输出服从高斯分布的采样整数系数向量e，满足$Ae=u \mod q$</p>
+<p>$NewBasisDel(A, R, T_ A, δ):$ $T_A$是$\Lambda_q^\bot(A)$的短基，输出$\Lambda_q^\bot(AR^{-1})$的短基。</p>
 <p>$SampleZ(s, c, n):$ 在一维整数格 Z 上采样</p>
 <p>$SampleD(Λ, T , c, l):$ 在高维格 Λ 上采样，基于“最近平面算法”。</p>
-<h1 id="SCHEME"><a href="#SCHEME" class="headerlink" title="SCHEME"></a>SCHEME</h1><p>$Setup(n)→PP, MSK:$</p>
-<p>KGC选择全局属性集U和允许的标签集合Tags。</p>
+<h1 id="SCHEME"><a href="#SCHEME" class="headerlink" title="SCHEME"></a>SCHEME</h1><h2 id="Setup-n-→PP-MSK"><a href="#Setup-n-→PP-MSK" class="headerlink" title="Setup(n)→PP, MSK:"></a>Setup(n)→PP, MSK:</h2><p>KGC选择全局属性集U和允许的标签集合Tags。$\chi=\Phi_\alpha$是噪声分布。</p>
+<p>通过TrapGen(n, m, q)生成随机矩阵$A_0$与对应的陷门$T_0$</p>
+<p>对全局属性基中的每一个元素$u_i$，执行SampleD，采样两次，为DO和DU得到格点向量$z_i$和$o_i$。并且生成两个可逆矩阵$B_i$和$W_i$。</p>
+<p>与之类似，对于每一个允许的标签$t_j$，得到格点向量$h_j$和可逆矩阵$H_j$。</p>
+<p>$PP=\{n,m,q,\chi,U,Tags,A_0B_i\}$</p>
+<p>$MSK=\{T_0,W_i,B_I,o_i,z_i,H_j,h_j\}$</p>
+<h2 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h2><p>分为数据拥有者密钥和数据接收者密钥，都是由KGC生成，并对于发送给DU和DO。</p>
+<h3 id="EkGen-MSK-S-A-→-ek-S-A"><a href="#EkGen-MSK-S-A-→-ek-S-A" class="headerlink" title="$EkGen(MSK, S_A) → ek_{S_A} :$"></a>$EkGen(MSK, S_A) → ek_{S_A} :$</h3><p>对于每一个全局属性，生成对于格点向量$z_i$和$o_i$的模平方的倒数（$h_j$类似）：</p>
+<script type="math/tex; mode=display">o_i^{-1}=\left[\sum_{j=1}^no_i[j]^2\right],z_i^{-1}=\left[\sum_{j=1}^nz_i[j]^2\right]</script><p>KGC判断这些属性是否在DO的属性集$S_A$中，如果在,则执行$NewBasisDel(A_0, W_i^{-1}, T_ 0, δ)$，生成新的格基$T_{oi}$，再执行$SamplePre(A_0W_i, T_{oi} , σ_i, o_i)$，生成对应的整数系数向量$e_{oi}$；如果不在，则随机选择$o_i’$</p>
+<p><strong>目的是在解密时对匹配不上DO属性集的属性，无法满足$A_0W_ie_{oi}=o_i$</strong></p>
+<p>DO密钥(由KGC生成并发送给DO，用来加密密文)</p>
+<script type="math/tex; mode=display">\begin{equation}
+    \begin{aligned}
+    ek_{1,i}&=do_1^{-1}z_i^{\top}z_i \\
+    ek_{2,j}&=do_2^{-1}h_j^{-1}h_j^{\top}A_0H_j \\
+    ek_{3,i}&=do_1do_2e_{oi}
+    \end{aligned}
+\notag% \notag 取消编号
+\end{equation}</script><p>$do_1$和$do_2$是DO标识，可以用来防共谋。</p>
+<h3 id="DkGen-MSK-S-B-P-A-→-dk-S-B-P-A0"><a href="#DkGen-MSK-S-B-P-A-→-dk-S-B-P-A0" class="headerlink" title="$DkGen(MSK, S_B, P_A) → dk_{S_B,P_{A0}} :$"></a>$DkGen(MSK, S_B, P_A) → dk_{S_B,P_{A0}} :$</h3><p>接收者的密钥类似KP（有全局属性集，防止DU的访问策略无法正常解析）,其中包含了DU的访问策略$P_A$。</p>
+<p>对于DU属性集$S_B$中的$n_b$个属性，KGC执行$NewBasisDel(A_0, B_{su_i}^{-1}, T_ 0, δ)$，生成新的格基$T_{Bi}$,再执行$SamplePre(A_0B_{su_i}, T_{Bi} , σ_i, z_{su_i})$，生成对应的整数系数向量$e_{z_i}$；$su_i$表示当前属性在全局属性集U中的序号。</p>
+<p>假设$P_A$内部共有$N_{C_A}$接入条件，共有$N_a$个属性。对于$P_A$中的每一个接入条件$Co_{A_j}$，KGC计算$S_j=\sum_{u_{su_i}\in Co_{A_j}}r_i$，$r_i$是$P_A$中每个属性对应的随机数。</p>
+<p><strong>没有将DU访问策略变成LSSS矩阵，而是将策略中划分成各个接入条件，每一个接入条件都使用加法秘密分享，将秘密值$S_j$，分给条件中的每一个属性</strong></p>
+<p>对于系统标签集中的每一个标签，进行基委派和预采样，获得新的格基$T_{Hj}$和对应的$e_{h_j}$。</p>
+<p>DU密钥(由KGC生成并发送给DU)</p>
+<script type="math/tex; mode=display">\begin{equation}
+    \begin{aligned}
+    &S^{-1}_j \\
+    &sk_{1,i}=r_io_{su_i}^{\top}A_0W_{su_i}o_{su_i}^{-1}dr_1^{-1} \\
+    &sk_{2,j}=dr_2^{-1}e_{z_j} \\
+    &sk_{3,i(0)}=dr_1dr_2e_{hi}
+    \end{aligned}
+\notag% \notag 取消编号
+\end{equation}</script><p>基委派的目的是，从主陷门基派生出子陷门基，且不影响密文和私钥大小。</p>
+<h2 id="Enc-M-ek-S-A-P-B-tags"><a href="#Enc-M-ek-S-A-P-B-tags" class="headerlink" title="$Enc(M, ek_{S_A} , P_B, tags)$"></a>$Enc(M, ek_{S_A} , P_B, tags)$</h2><p>DO利用KGC生成的DO密钥和访问策略来加密消息（类似CP-ABE），tags是DO和DU预先设定的标签集。</p>
+<p>对于tags中的$d$个标签,也是类似秘密共享的形式将秘密值$k$藏在$d$个份额中(但只要进行一次)：</p>
+<script type="math/tex; mode=display">k=\sum_{i=1}^{d}k_i</script><p>加密密文：</p>
+<script type="math/tex; mode=display">\begin{equation}
+    \begin{aligned}
+    &C=M[\frac{q}{2}]+k \gamma s +\chi_l\\
+    &C_{1,i}=fF_iv^{\top}ek_{1,su_i}A_0B_{su_i}\\
+    &C_{2,i}=ek_{2,st_i}\rho^{-1}k_i\\
+    &C_{3,i}=f^{-1}\rho ek_{3,i}\\
+    \end{aligned}
+\notag% \notag 取消编号
+\end{equation}</script><p>密文基于LWE构造，只有解密出$k \gamma s $才能恢复出消息值，$\gamma$是DO随机选择的向量并公开。</p>
+<p>$C_{1,i}$中通过LSSS来实现细粒度访问控制，$F_i$是转化的策略矩阵，$F_iv^{\top}$则是$n_b$个属性的份额（$n_b$是DO策略中属性个数），可以通过线性时间重构出秘密值$s$。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>该方案的安全性可归约至<strong>LWE困难问题</strong>。与随机矩阵基在格计算中的低效性形成鲜明对比，短格基凭借其优良的几何性质，不仅可以高效求解格问题，还能作为密码系统中的可靠陷门，为安全方案设计提供关键支持。</p>
+<p>而对于<strong>双边细粒度访问</strong>的实现，DO是基于LSSS，DU基于加法秘密共享。DO相当与进行CP-ABE可以实现灵活的策略访问，只有满足访问密文策略的用户才能访问数据。DU则要求DO至少要满足最小授权集中的一种策略，可以筛选出满足密钥策略的DO。</p>
+<p>最后本文采用<strong>穿刺加密</strong>来保证前向安全性，数据接收者通过穿刺标签来更新密钥，即使攻击者获得了最新的密钥，也不能解密带有穿刺标签的密文。</p>
+<p>该方法特别适用于需要双重匹配的高度机密共享场景。缺乏对应权限的接收者不能得知是否是因为自身权限不匹配密文策略还是DO的属性不满足密钥策略。</p>
 
     
 
