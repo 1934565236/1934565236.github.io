@@ -261,6 +261,8 @@
 <h1 id="The-EPF2DS-Scheme"><a href="#The-EPF2DS-Scheme" class="headerlink" title="The EPF2DS Scheme"></a>The EPF2DS Scheme</h1><p>加密： 加密数据上传到云端，每一个密文会分配密文索引。</p>
 <p>离线搜索：边缘节点收到用户密钥$TK$和云端发来的转换密钥$UK$和密文，先生成更新密钥，生成对应的陷门。如果搜索成功，返回所有的密文标识和用户id。（搜索所有满足属性的密文）</p>
 <p>在线搜索：在密文列表中搜索相应的关键字。匹配成功则解密出中间密文返回给用户。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>因为历史密文在一直更新，被撤销用户不能获得历史数据。</p>
+<p>密钥中嵌入了属性，若密钥未更新，则无法正常解密，即用户的所有属性被撤销。</p>
 
     
 
@@ -272,6 +274,17 @@
   <div class="article-info article-info-index">
     
     
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">用户间接撤销</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
     
 
     
@@ -788,6 +801,10 @@
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">用户间接撤销</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
