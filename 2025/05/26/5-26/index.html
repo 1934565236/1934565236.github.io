@@ -18,7 +18,7 @@
 <meta property="og:description" content="Contributions关键字搜索功能和动态用户组可用性的完全隐藏策略ABE方案 以轻量级的方式防止任何敏感属性隐私暴露用内积表示属性向量和访问向量之间的关系。 基于ABE的间接用户撤销机制。（不更新间接撤销用户，而周期性的更新未被撤销用户的密文和用户私钥） 高效的关键字搜索。首先，在PF2DS中提出了一个基本的密文关键字搜索方案。随后，EPF2DS引入了边缘辅助的在线&#x2F;离线关键词检索方案，提高">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-05-26T01:22:09.000Z">
-<meta property="article:modified_time" content="2025-05-28T02:43:49.289Z">
+<meta property="article:modified_time" content="2025-06-03T03:00:19.185Z">
 <meta property="article:author" content="zhy">
 <meta property="article:tag" content="用户间接撤销">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
       <!-- 百度字体平台:http://fontstore.baidu.com/static/editor/index.html -->
       <i class="icon-statistics"></i>
       <span class="post-meta-item-text"> 字数统计:</span>
-      <span class="post-count">830字</span>
+      <span class="post-count">840字</span>
     </span>
   </span>
 
@@ -279,7 +279,7 @@
 <p>未被撤销用户接收到更新密钥，生成更新用户密钥$usk$</p>
 <p>搜索：用户提供关键词，密钥制作陷门（陷门中包含用户的属性向量）。只有密钥中的属性符合密文中的策略，并且用户未被撤销（密钥更新了时间组件），才能实现匹配。</p>
 <p>用户解密：搜索成功后，云返回不包含策略的密文，再由用户解密。</p>
-<p>属性仅用于访问控制，撤销根据用户的唯一标识符，将id对应的树的路径节点加入撤销列表。</p>
+<p>权威机构执行用户撤销：属性仅用于访问控制，撤销根据用户的唯一标识符，将id对应的树的路径节点加入撤销列表。</p>
 <h1 id="The-EPF2DS-Scheme"><a href="#The-EPF2DS-Scheme" class="headerlink" title="The EPF2DS Scheme"></a>The EPF2DS Scheme</h1><p>加密： 加密数据上传到云端，每一个密文会分配密文索引。</p>
 <p>离线搜索：边缘节点收到用户密钥$TK$和云端发来的转换密钥$UK$和密文，先生成更新密钥，生成对应的陷门。如果搜索成功，返回所有的密文标识和用户id。（搜索所有满足属性的密文）</p>
 <p>在线搜索：在密文列表中搜索相应的关键字。匹配成功则解密出中间密文返回给用户。</p>
@@ -391,6 +391,15 @@
 
 
 <nav id="article-nav">
+  
+    <a href="/2025/06/19/MA-RABSE/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MA-RABSE
+        
+      </div>
+    </a>
   
   
     <a href="/2025/05/20/5-20/" id="article-nav-older" class="article-nav-link-wrap">
@@ -591,6 +600,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">用户间接撤销</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">注册属性基加密</a>
               </li>
             
             <div class="clearfix"></div>

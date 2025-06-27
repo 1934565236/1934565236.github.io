@@ -214,6 +214,290 @@
             
 
   
+    <article id="post-RABE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2025/06/23/RABE/" target="_blank">Registered Attribute-Based Encryption</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2025/06/23/RABE/" class="archive-article-date">
+        <time datetime="2025-06-23T01:00:35.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-06-23</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>S. Hohenberger, G. Lu, B. Waters, and D.J. Wu,”Registered Attribute-Based Encryption,” in Advances in Cryptology (EUROCRYPT). LNCS, vol. 14006, pp. 511—542. Springer, Cham (2023).</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>属性基加密是公钥加密的推广，能够对加密数据进行细粒度的控制。然而，ABE颠覆了传统公钥加密的信任模型，要求单个可信机构颁发解密密钥。如果敌手泄露了中央权威并泄露了其私钥，那么敌手可以解密系统中的每一个密文。</p>
+<p>本文介绍了注册ABE，一个原语允许用户自己生成密钥，然后用一个”密钥策展人”和他们的属性一起注册相关的公钥。密钥策展人将来自不同用户的公钥聚合成一个紧凑的主公钥。为了解密，用户偶尔需要从密钥策展人那里获得辅助解密密钥，密钥策展人结合自己的密钥。我们要求聚合公钥、辅助解密密钥、密文的大小以及加密/解密次数在注册用户数量上是多对数的。此外，密钥策展人是完全透明的，没有任何秘密。注册ABE推广了Garg等人( TCC 2018 )提出的基于注册的加密( RBE )的概念，他们专注于基于身份加密的更简单的设置。</p>
+<p>我们从合数阶配对群的假设出发，构造了一个注册的ABE方案，该方案支持先验有界的用户数和策略，可以用一个线性秘密共享方案(例如,单调布尔公式)来描述。我们的方法与先前构建RBE的技术截然不同，并且只使用密码学的黑盒技术。所有现有的RBE构造(一个比注册ABE更弱的概念)都依赖于大量的非黑盒技术。我们构建的加密和解密成本与普通的基于配对的ABE相当。我们方案的两个限制是需要一个结构化的参考字符串，其大小与用户数量(并且与属性论域的大小呈线性关系)呈二次方关系，注册的运行时间与用户数量呈线性关系。</p>
+<p>最后，作为可行性结果，我们构造了一个注册的ABE方案，该方案支持一般策略和任意数量的用户免于不可区分混淆和某处统计绑定的哈希函数。</p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>ABE与标准的公钥加密相比，它显著地改变了信任模型。（ABE信任依赖于属性而非具体身份,公钥加密信任建立在身份或证书上）</p>
+<p>在ABE方案中，需要一个中心可信机构来颁发与每个用户相关的秘密解密密钥。关键的是，这个中央机构需要保留一个长期的秘密密钥。如果中心权威在任何时刻被敌手攻破，那么敌手就获得了对系统中所有密文进行解密的能力。这使得ABE本质上容易受到密钥溢出攻击，并且在系统的生命周期内必须谨慎地保护长期的秘密密钥。内置密钥托管和密钥外渗脆弱性的结合是部署ABE的常见障碍。</p>
+<p><strong>RBE</strong>：Garg等人引入了基于注册的加密( RBE )的概念，以解决基于身份的加密( IBE )中的私钥托管问题。在IBE方案中，秘密密钥和密文与身份关联，如果与秘密密钥和密文关联的身份匹配，则解密成功；IBE方案是ABE方案在平等策略下的一个特例。在RBE方案中，中央权威被一个”密钥策展人”所取代。密钥策展人的作用不是发布秘密解密密钥，而是将注册用户的公钥聚合成一个短的主公钥mpk。</p>
+<p>更具体地说，RBE方案中的用户生成自己的公钥/私钥(就像传统的公钥加密一样)，然后将他们的公钥和他们的身份一起注册到密钥策展人。</p>
+<p><strong>大致流程</strong>：用户（即，数据接收者）计算公/私钥，并将公钥和属性一起在”密钥策展人”上注册。”密钥策展人”聚合更新主公钥和辅助解密密钥，数据拥有者（也是注册用户）利用主公钥和策略加密消息。如果用户的属性满足策略，就可以利用私钥和辅助解密密钥来解密消息。</p>
+<p>由于当新用户加入系统时，RBE方案的主公钥会发生变化，因此用户必须在系统生命周期内定期刷新其辅助解密密钥。在RBE系统中，密钥管理员不拥有任何秘密信息。</p>
+<p><strong>一个挑战</strong>：密码学的非黑箱使用。近年来，一些工作从标准假设(如CDH或LWE假设)构造了基于注册的加密。然而，现有的所有构造都对密码学进行了大量的非黑盒使用。现有的构造要么对加密哈希函数进行不可区分性混淆，要么使用哈希混淆遍历Merkle树。</p>
+<p><strong>这项工作：注册ABE</strong> 在这项工作中，我们引入了一种被称为注册ABE的RBE的泛化，以解决密钥托管问题，并消除了ABE背景下对长期密钥的需求。我们介绍了一套新的技术来实现只使用黑盒密码学的注册ABE。我们的工作在两个关键方面扩展了基于注册的加密：</p>
+<ul>
+<li>功能性： 我们的方案是基于属性的，并且能够支持任何可以用线性秘密共享方案描述的访问控制策略。这与基于配对的ABE方案中的最先进水平相匹配。注册ABE为ABE的设置提供了密钥托管的解决方案。</li>
+<li>黑盒密码学的使用： 我们的方法采取了一种基于聚合的方法，在概念上类似于构建基于配对的向量承诺和批量参数。</li>
+</ul>
+<p>而我们方案中的CRS是结构化的，需要被<strong>可信方</strong>(或者使用MPC协议)采样，这是我们系统中唯一的可信组件。</p>
+<p>此后，关键策展人的行为具有确定性和可审计性。只要敌手不妥协这种一次性设置，安全就成立。这与传统的ABE不同，用户必须始终信任持有长期密钥的中央授权机构。如果权威机构在任何时刻被攻破，敌手成功地泄露了权威机构的密钥，那么他们就获得了对系统中每一个密文进行解密的能力。</p>
+<h1 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h1><p>先前的工作已经探索了解决ABE固有的密钥托管限制的机制。</p>
+<ul>
+<li>秘密共享将秘密值拆分，多权威机构进行信任拆分</li>
+<li>对中央权威机构问责，引入IBE和传统公钥目录相结合的混合概念</li>
+</ul>
+<p>然而，这些方法都没有完全消除IBE和ABE等概念所固有的私钥托管。</p>
+<p>文献从CDH或LWE等假设出发，给出了一个完全有效的构造。现有的构造都依赖于非黑盒密码学的使用。</p>
+<h1 id="Technical-Overview"><a href="#Technical-Overview" class="headerlink" title="Technical Overview"></a>Technical Overview</h1><p>我们的注册ABE的构建分两步进行。</p>
+<p>首先，我们定义并构造了一个我们称之为中间原语，slotted registered ABE。然后，我们展示了如何将一个槽注册ABE方案变化为一个注册ABE方案。</p>
+<h2 id="槽注册ABE"><a href="#槽注册ABE" class="headerlink" title="槽注册ABE"></a>槽注册ABE</h2><p>在一个slotted registered ABE方案中，指定了一个固定的用户数$L$，每个用户都对应了一个槽索引$i$。在这个方案中并非是每个用户依次注册，而是将$L$个用户的公钥和属性集作为输入，输出主公钥和每个用户对应的辅助解密密钥。</p>
+<p><strong>主要区别</strong>：在(非时隙)注册的ABE中，公钥每次注册一次，每次注册后更新主公钥。</p>
+<h2 id="从槽注册ABE到注册ABE"><a href="#从槽注册ABE到注册ABE" class="headerlink" title="从槽注册ABE到注册ABE"></a>从槽注册ABE到注册ABE</h2><p>我们使用了一种简单的powers-of-two的方法。首先设置最大注册人数$L=2^l$, 并且构造$l+1$个槽RABE(第k个方案设置有$2^k$个槽，$k \in [0,l]$)。 系统中当前用户数的二进制形式告诉了哪些方案正在被激活。</p>
+<p>这样就可以实现最多只能发生$l+ 1 = O ( \mathrm{log} L )$次更新解密密钥。</p>
+<p>因为有$l+1$个槽RABE，主公钥就包含了每一个方案的$mpk_k$，即$mpk=(mpk_0,\dots,mpk_l)。$加密者利用主公钥进行加密得到的密文$ct=(ct_0,\dots, ct_l)$。若要解密，当前在$mpk_k$中注册的用户取$ct_k$并解密。总的来说，与时隙方案相比，这种二的幂方法在公共参数大小、密文大小和加密时间上产生了$O ( \mathrm{log} L )$的开销，但现在支持有效的更新。</p>
+<h2 id="来自混淆的无界用户的注册ABE"><a href="#来自混淆的无界用户的注册ABE" class="headerlink" title="来自混淆的无界用户的注册ABE"></a>来自混淆的无界用户的注册ABE</h2><p>基于配对的注册ABE构造只支持有限数量的用户。我们使用不可区分混淆和部分统计绑定哈希函数构建支持<strong>任意用户数量</strong>的注册ABE。</p>
+<p>在这里，我们描述一个槽版本的方案。</p>
+<p>我们首先在值$( pk_1, S_1), \dots, (pk_L, S_L)$上构建Merkle哈希树。主公钥是Merkle树的根。一个密文由一个混淆程序组成</p>
+<p>混淆后的程序检查： 1. 关于哈希根(硬编码)的打开是有效的；2. $S_i$满足密文策略(也是硬编码)；3. $sk_i$是$pk_i$的密钥。如果所有这些检查都通过，则输出消息m。这种方法直接为任意数量的用户生成一个注册的ABE，并且支持通用的电路策略。</p>
+<h1 id="槽注册ABE构造思路"><a href="#槽注册ABE构造思路" class="headerlink" title="槽注册ABE构造思路"></a>槽注册ABE构造思路</h1><h2 id="单槽的简单版本"><a href="#单槽的简单版本" class="headerlink" title="单槽的简单版本"></a>单槽的简单版本</h2><p>因为解密需检查：</p>
+<ol>
+<li>用户是否在槽上注册，</li>
+<li>用户属性是否与策略匹配</li>
+</ol>
+<p>于是在描述方案时，我们根据CRS、主公钥和密文是”<strong>槽特定的</strong>“还是”<strong>属性特定的</strong>“来粗略地划分它们的组成部分。</p>
+<p>CRS中用通用组件$g_1,g_3$,主公钥中只包含CRS属性组件都$G_1$子群中，辅助解密密钥就是CRS中的槽组件,用户公私钥为$g_1^r/r$；</p>
+<p>加密时，使用秘密共享，将秘密数$h$拆分到属性组件和槽组件中。</p>
+<p>解密时，检查属性通过LSSS恢复出$h_2^s$,再和A双线性配对得到$e(h_2, g_1)^{st}$;与之类似pairing得到$e(h_1, g_1)^{st}$，恢复出$e(h,g_1)^{st}$,再得到消息$\mu$。</p>
+<h2 id="通过密钥聚合扩展到Multiple-Slots"><a href="#通过密钥聚合扩展到Multiple-Slots" class="headerlink" title="通过密钥聚合扩展到Multiple Slots"></a>通过密钥聚合扩展到Multiple Slots</h2><p>为了扩展到$L $-时隙方案，我们在CRS中本质上”级联”了单时隙方案的$L$个独立副本。具体来说，对于每个时隙$i∈[ L ]$，CRS包含一组时隙特定的组件和一组属性特定的组件：</p>
+<script type="math/tex; mode=display">crs = (\mathcal{G} , g_1 , g_3 , Z , h , {(A_i, B_i)}_{i∈[L]} , \{U_{i,w}\}_{i∈[L],w∈U } ).</script><p>接下来，我们需要一种方法将不同时隙的公钥聚合成一个紧凑的主公钥mpk。我们的聚合机制非常简单：聚合后的公共关键组件$\hat{T}，\hat{U}_w$简单对应于与每个槽关联的组件的乘积：</p>
+<script type="math/tex; mode=display">\hat{T} = \prod_{ j∈[L]} T_j \quad and \quad \hat{U}_w=\prod_{ j∈[L]:w\notin S_j}U_{j,w} .</script><p><strong>重要的是</strong>，主公钥的大小与槽数无关。加密算法也保持与单槽情况下相同。</p>
+<p>加密消息后的密文组件都是与<strong>所有槽相关</strong>的指数的函数，而密钥仅仅是单个槽的$r_i$，因此加密需要额外的辅助信息才能解密。</p>
+<p>如果按单槽的设计逻辑来解密，槽组件解密会得到交叉项:</p>
+<script type="math/tex; mode=display">D_{slot}  = e(C_4, A_i) · e(C_2, A^{r_i}_i) \\
+     \hspace{5.7em}= e(h_1, g_1)^{st_i}  \prod_{j \neq i} e(g_1, g_1)^{-sr_jt_i} ,</script><p>每个用户提供交叉项$V_{j,i} = A^{r_i}_j,j \neq i$，为公钥的一部分；密钥策展人可以聚合出辅助解密密钥组件 $\hat{V}_i = \prod_{j \neq i}V_{i,j}$。    </p>
+<h3 id="安全分析"><a href="#安全分析" class="headerlink" title="安全分析"></a>安全分析</h3><p>双系统方法</p>
+<p><img src=".\\picture\\RABE\\dual-system.png" alt="本地图片" title="双系统方法"></p>
+<p>注册到半功能槽的密钥可以用来解密正常密文，而注册到正常槽的密钥可以用来解密半功能密文，但是注册到半功能槽的密钥不可以用来解密半功能密文。</p>
+<p>我们首先将挑战密文从普通密文切换到半函数密文。然后，我们将与每个槽相关的参数从正常转换为半功能槽。</p>
+<p>突出两个技术挑战：</p>
+<ol>
+<li>在方案中，允许敌手向密钥策展人提交任意的公钥。我们引入了一种有效性检查机制，该机制使用配对来检查公钥的组成部分是否正确计算。没有使用零知识证明，选择更简单的代数机制。</li>
+<li>semantic security. 挑战密文信息- -理论上是通过LSSS的安全性来隐藏消息的。（<strong>检查槽组件确保只有是注册用户才能解密</strong>）在注册ABE中，场景略有不同，因为我们必须考虑两种可能性：<ul>
+<li>敌手知道与槽i相关联的密钥，并且与槽i相关联的属性不满足挑战策略；</li>
+<li>敌手不知道与槽i相关的密钥。在这种情况下，与槽i相关的属性可能满足挑战策略。</li>
+</ul>
+</li>
+</ol>
+<h1 id="槽注册ABE构造"><a href="#槽注册ABE构造" class="headerlink" title="槽注册ABE构造"></a>槽注册ABE构造</h1><h2 id="形式化定义"><a href="#形式化定义" class="headerlink" title="形式化定义"></a>形式化定义</h2><p>一个槽注册ABE方案，它是我们基于配对构造的核心构建块</p>
+<p><img src=".\\picture\\RABE\\formed_definition.png" alt="本地图片" title="双系统方法"></p>
+<p>槽数在初始化阶段确定，初始化由一个可信方执行的，负责计算公共参考字符串</p>
+<p>用户自己生成公私钥对</p>
+<p>密钥管理者执行agg,聚合出主公钥和辅助解密密钥</p>
+<h2 id="从合数阶配对群上的槽注册ABE"><a href="#从合数阶配对群上的槽注册ABE" class="headerlink" title="从合数阶配对群上的槽注册ABE"></a>从合数阶配对群上的槽注册ABE</h2><p>我们构造了一个基于注册的时隙属性加密方案$\Pi_{R - ABE} = \left( \mathrm{Setup , KeyGen , IsValid , Aggregate , Encrypt , Decrypt} \right)$，其中消息空间$M = G_T$，属性空间$U$，策略空间$P$如下：</p>
+<p>（一） $\mathrm{Setup}(1^λ, 1^{|U|}, 1^L)$: </p>
+<ul>
+<li>通用组件：$N=p_1p_2p_3,\quad \mathcal{G}=(\mathbb{G},\mathbb{G}_T,N,g,e),\quad h=g^\beta_1$ </li>
+<li>槽组件： $A_i ← (g_1g_3)^{t_i} , \quad B_i ← g^α_1 A^β_i g^{τ_i}_3 , \quad P_i ← (g_1g_3)^{δ_i}$ </li>
+<li>属性组件： $U_{i,w} ← g^{u_{i,w}}_1 ,\quad W_{i,j,w} ← A^{u_{j,w}}_i g^{γ_{i,j,w}}_3,\quad w ∈ U$</li>
+</ul>
+<p>最后输出$crs = (\mathcal{G} , Z =e(g_1,g_1)^\alpha, g_1 , h , g_3 , \{(A_i, B_i, P_i)\}_{i∈[L]} , \{U_{i,w}, W_{i,j,w}\}_{i\neq j,w∈U} )$</p>
+<p>（二） $\mathrm{KeyGen}(crs, i)$:</p>
+<script type="math/tex; mode=display">T_i\leftarrow g_1^{r_i},\quad Q_i\leftarrow P_i^{r_i},\quad R_i\leftarrow g_3^{r_i},\quad V_{j,i}\leftarrow A_j^{r_i}</script><p>$pk_i=(T_i,Q_i,R_i,\{V_{j,i}\}_{j\neq i}), \quad sk_i=r_i$</p>
+<p>（三） $\mathrm{IsValid}(crs, i, pk_i)$：<br>密钥验证算法首先确认$pk_i$中的每个组件都是有效的群元素，即$\mathbb{G}$中的一个元素。如果是，则进行检查$T_i,Q_i,R_i$是否合法；下一步检验$V_{j,i}$是否合法。</p>
+<p>（四）$\mathrm{Aggregate}(crs, (pk_1, S_1), \dots, (pk_L, S_L))$:</p>
+<p>聚合部分采用了向量承诺的思想，将$L$个初始化槽组件，不包含w的初始化属性组件以乘积聚合，并能够为任意位置$i$打开。</p>
+<ul>
+<li>槽组件： $\hat{T} = \prod_{ j∈[L]} T_j \quad ,\quad \hat{V}_i =\prod_{j \neq i} V_{i,j}.$</li>
+<li>属性组件： $\hat{U}_w=\prod_{ j∈[L]:w\notin S_j}U_{j,w} \quad ,\quad \hat{W}_{i,w}=\prod_{ j\neq i:w\notin S_j}W_{i,j,w}$</li>
+</ul>
+<p>最后,得到主公钥msk(包含属性，大小与槽无关),和辅助解密密钥$hsk_i$。</p>
+<script type="math/tex; mode=display">mpk = (\mathcal{G}, g_1, h, Z, \hat{T}, \{\hat{U}_w\}_{w∈U}  )\quad and \\ hsk_i = (mpk, i, S_i, A_i, B_i, \hat{V}_i, \{\hat{W}_{i,w}\}_{w∈U} ).</script><p>（五）$\mathrm{Encrypt}(mpk, (M, ρ), μ)$:</p>
+<ul>
+<li>消息嵌入组件：$C_1 ← μ\cdot Z^s \quad and \quad C_2 ← g_1^s$</li>
+<li>属性组件： $C_{3,k} ← h^{m^{\top}_k v }_2 \hat{U}^{ −s}_{ρ_{(k)}}$，$h_1h_2=h$</li>
+<li>槽组件： $C_4 ← h^s_1\hat{T}^{−s}$</li>
+</ul>
+<script type="math/tex; mode=display">ct = ((M, ρ), C_1, C_2, \{C_{3,k}\}_{k∈[K]}, C_4).</script><p>（六）$\mathrm{Decrypt}(sk, hsk, ct)$:</p>
+<p>$D_{slot} = e(C_4, A_i) · e(C_2, A^r_i  \hat{V}_i)\\<br> \hspace{2.3em}=e(h_1^{-1}\prod T_j,g_1g_3)^{-st_i} \cdot e(g_1,(g_1g_3)^{t_ir_i}\prod (g_1g_3))^{t_ir_j})^s\\<br> \hspace{2.3em}=e(h_1,g_1)^{st_i}\prod_{j∈[L]} e(g_1,g_1)^{-st_ir_j}e(g_1,g_1^{t_ir_i}\prod_{j \neq i} g_1^{t_ir_j})^s\\<br> \hspace{2.3em}=e(h_1,g_1)^{st_i}<br>$</p>
+<p>$D_{att} =\prod_{1\leq j \leq|I|}  (e(C_{3,k_j} , A_i) · e(C_2, \hat{W}_{i,ρ_{(k_j)}}  ))^{ω_{S_i,j}}\\<br> \hspace{2em}=\prod (e(h^{m^{\top}_{k_j} v }_2 \hat{U}^{ −s}_{ρ_{(k_j)}},(g_1g_3)^{t_i})\cdot e(g_1^s,\prod A^{u_{j,ρ_{(k_j)}}}_i g^{γ_{i,j,ρ_{(k_j)}}}_3))^{ω_{S_i,j}}\\<br> \hspace{2em}=\prod (e(h_2^{m^{\top}_{k_j} v }\prod U_{j,ρ_{(k_j)}}^{-s},(g_1g_3))^{t_i}\cdot e(g_1^s,\prod (g_1g_3)^{u_{j,ρ_{(k_j)}}t_i}g^{γ_{i,j,ρ_{(k_j)}}}_3))^{ω_{S_i,j}}\\<br>\hspace{2em}=\prod (e(h_2^{m^{\top}_{k_j} v }\prod g_1^{-su_{j,ρ_{(k_j)}}},g_1)^{t_i}\cdot e(g_1^s,\prod g_1^{u_{j,ρ_{(k_j)}}t_i}))^{ω_{S_i,j}}\\<br>\hspace{2em}=e(h_2\prod g_1^{-u_{j,ρ_{(k_j)}}\sum ω_{S_i,j}},g_1)^{st_i}\cdot e(g_1,\prod g_1^{u_{j,ρ_{(k_j)}}\sum ω_{S_i,j}})^{st_i}\\<br>\hspace{2em}=e(h_2,g_1)^{st_i}<br>$</p>
+<script type="math/tex; mode=display">μ = C_1 \cdot D_{slot} \cdot D_{att}/e(C_2, B_i).</script><h2 id="安全证明"><a href="#安全证明" class="headerlink" title="安全证明"></a>安全证明</h2><p>安全证明遵循双系统方法</p>
+<p>安全归约：通过一系列混合游戏（hybrid games），逐步替换正常密钥和密文为半功能性版本，最终敌手无法获得任何有用信息。</p>
+<p>安全假设：合数阶双线性群上的子群判定假设（Subgroup Decision Assumption）。</p>
+<h1 id="注册ABE构造"><a href="#注册ABE构造" class="headerlink" title="注册ABE构造"></a>注册ABE构造</h1><p>不失一般性，设置用户上限L是2的幂次。</p>
+<p>这里假设L=8，l=3，k=l+1， i=2^k，即8个用户上限的RABE需要4个sRABE，槽数分别是1，2，4，8。</p>
+<p>维护状态信息$\mathrm{aux}$,包含计数器ctr记录实时注册用户；两个字典$D_1,D_2$，分别是$D_1[k,i]=(p_k,S)$,$D_2[k,i]=hsk_{k,i}$；还有方案的主公钥$msk=(ctr,mpk_0,\cdots,mpk_l)$,初始化全为0或空。</p>
+<p>（一） $\mathrm{Setup}(1^λ, 1^{|U|}, 1^L)$: </p>
+<p>每一个槽注册ABE都进行初始化，输出$crs=(crs_0,\cdots,crs_l)$。</p>
+<p>（二） $\mathrm{KeyGen}(crs, aux)$:</p>
+<p>采用的还是底层的$\mathrm{KeyGen}(crs,i)$算法，不过槽索引$i$，要通过ctr计算得到$i_k=(ctr \mod 2^k)+1$,即注册用户在每一个槽方案中都要进行注册。</p>
+<p>$1               \hspace{16em}                 2$<br>$1,\backslash             \hspace{15em}                1,2$<br>$1,\backslash ,\backslash,\backslash       \hspace{13em}         1,2,\backslash,\backslash$<br>$1,\backslash ,\backslash,\backslash,\backslash,\backslash,\backslash,\backslash    \hspace{9.5em}  1,2,\backslash,\backslash,\backslash,\backslash,\backslash,\backslash$</p>
+<p>输出$pk=(ctr,pk_0,\cdots,pk_l),sk=(ctr,sk_0,\cdots,sk_l)$，即生成注册用户在每一个槽方案下公\私钥</p>
+<p>（三）$\mathrm{ RegPK}(crs, aux, pk, S_{pk})$:</p>
+<ul>
+<li>首先计算每个方案槽索引$i_k$，</li>
+<li>然后验证槽上的验证通过$\mathrm{IsValid}$算法，</li>
+<li>接着更新字典$D_1[k,i_k]=(p_k,S_{pk})$，</li>
+<li>如果$i_k = 2^k $(也就是说,方案k中的所有槽都被填充)，就利用$\mathrm{Aggregate}(crs, D_1[k,1], \dots, D_1[k,2^k])$,计算主公钥和辅助解密密钥,</li>
+<li>更新$D_2[k,ctr+1-2^k+i]=hsk’_{k,i}$，因为槽不止更新一次，每一个槽的辅助更新密钥都要继续开辟空间存,</li>
+<li>更新$mpk=(ctr_{aux}+1,mpk’_0,\cdots,mpk’_l)$,更新所有槽的主公钥，没有聚合过则不变。</li>
+<li>最后算法输出mpk和$aus’=(ctr_{aux}+1,D_1,D_2,mpk’)$</li>
+</ul>
+<p>（四）$\mathrm{Encrypt}(mpk, (M, ρ), μ)$:</p>
+<p>在每一个mpk不为空的槽方案上使用加密算法进行加密，若mpk为空也输出空；最后输出$ct=(ctr,ct_0,\cdots,ct_l)$。</p>
+<p>（五）$\mathrm{Update}(crs,aux,pk)$:</p>
+<p>每次有新的用户注册成功，会产生新的主密钥；已注册用户就需要更新辅助解密密钥才能正常进行解密。(单用户更新)若$ctr_{pk}&lt;ctr_{aux}$，则说明还未进行更新，已注册用户更新每个槽方案给自己的$hsk_{k}=D_2[k,(ctr_{pk}+1)]$，最终得到$hsk = (hsk_0, \cdots, hsk_l )$.</p>
+<p>（六）$\mathrm{Decrypt}(sk, hsk, ct)$:</p>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">注册属性基加密</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2025/06/23/RABE/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-MA-RABSE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2025/06/19/MA-RABSE/" target="_blank">MA-RABSE</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2025/06/19/MA-RABSE/" class="archive-article-date">
+        <time datetime="2025-06-19T08:36:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-06-19</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2025/06/19/MA-RABSE/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-5-26" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -257,7 +541,7 @@
 <p>未被撤销用户接收到更新密钥，生成更新用户密钥$usk$</p>
 <p>搜索：用户提供关键词，密钥制作陷门（陷门中包含用户的属性向量）。只有密钥中的属性符合密文中的策略，并且用户未被撤销（密钥更新了时间组件），才能实现匹配。</p>
 <p>用户解密：搜索成功后，云返回不包含策略的密文，再由用户解密。</p>
-<p>属性仅用于访问控制，撤销根据用户的唯一标识符，将id对应的树的路径节点加入撤销列表。</p>
+<p>权威机构执行用户撤销：属性仅用于访问控制，撤销根据用户的唯一标识符，将id对应的树的路径节点加入撤销列表。</p>
 <h1 id="The-EPF2DS-Scheme"><a href="#The-EPF2DS-Scheme" class="headerlink" title="The EPF2DS Scheme"></a>The EPF2DS Scheme</h1><p>加密： 加密数据上传到云端，每一个密文会分配密文索引。</p>
 <p>离线搜索：边缘节点收到用户密钥$TK$和云端发来的转换密钥$UK$和密文，先生成更新密钥，生成对应的陷门。如果搜索成功，返回所有的密文标识和用户id。（搜索所有满足属性的密文）</p>
 <p>在线搜索：在密文列表中搜索相应的关键字。匹配成功则解密出中间密文返回给用户。</p>
@@ -435,8 +719,7 @@
   
   <div class="article-entry" itemprop="articleBody">
     
-    <p>[toc]</p>
-<h1 id="文献"><a href="#文献" class="headerlink" title="文献"></a>文献</h1><p>M. Yang, H. Wang and D. He, “PM-ABE: Puncturable Bilateral Fine-Grained Access Control From Lattices for Secret Sharing,” in IEEE Transactions on Dependable and Secure Computing, vol. 22, no. 2, pp. 1210-1223, 2025.</p>
+    <h1 id="文献"><a href="#文献" class="headerlink" title="文献"></a>文献</h1><p>M. Yang, H. Wang and D. He, “PM-ABE: Puncturable Bilateral Fine-Grained Access Control From Lattices for Secret Sharing,” in IEEE Transactions on Dependable and Secure Computing, vol. 22, no. 2, pp. 1210-1223, 2025.</p>
 <h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>在可持续智慧城市蓬勃发展的时代，随着互联网的可接入性和分布式计算的持续演进，人们越来越依赖云雾计算环境和在线数据存储平台实现数据安全共享。然而，现有的密码方案在同时满足双边细粒度访问控制、抗量子攻击、保证解密数据的真实性和历史数据的前向安全性等安全需求方面存在不足。为了应对这些挑战，我们提出了<strong>基于格密码的可穿刺属性匹配加密方案</strong>。该方法很好地同时满足了上述严格的安全需求，为秘密共享的安全实现提供了三重保障。接收者无法成功解密，仍然不知道关于密文和访问策略的任何具体信息。我们的PM - ABE方案具有抵抗量子攻击、合谋攻击、选择明文攻击和选择消息攻击下的不可伪造性。此外，我们的综合效率分析证实了我们的方案保持了良好的计算效率和存储消耗水平。</p>
 <h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>有效解决保护数据隐私和保障数据安全的难题，同时增强数据共享的灵活性，是一个热门的研究课题。</p>
 <p>基于属性加密( Attribute-Based Encryption，ABE )的引入为解决上述挑战提供了新的视角。尽管支持ABE方案的研究是稳健的，但它们始终局限于数据所有者单方面决定访问策略的情况，体现了访问控制的单方面表现。同时，这些方案缺乏对数据源真实性的验证能力，无法保证数据在上传到共享平台后保持不变或未被编辑。</p>
@@ -513,7 +796,7 @@
 <p>$C_{1,i}$中通过LSSS来实现细粒度访问控制，$F_i$是转化的策略矩阵，$F_iv^{\top}$则是$n_b$个属性的份额（$n_b$是DO策略中属性个数），可以通过线性时间重构出秘密值$s$。</p>
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>该方案的安全性可归约至<strong>LWE困难问题</strong>。与随机矩阵基在格计算中的低效性形成鲜明对比，短格基凭借其优良的几何性质，不仅可以高效求解格问题，还能作为密码系统中的可靠陷门，为安全方案设计提供关键支持。</p>
 <p>而对于<strong>双边细粒度访问</strong>的实现，DO是基于LSSS，DU基于加法秘密共享。DO相当与进行CP-ABE可以实现灵活的策略访问，只有满足访问密文策略的用户才能访问数据。DU则要求DO至少要满足最小授权集中的一种策略，可以筛选出满足密钥策略的DO。</p>
-<p>最后本文采用<strong>穿刺加密</strong>来保证前向安全性，数据接收者通过穿刺标签来更新密钥，即使攻击者获得了最新的密钥，也不能解密带有穿刺标签的密文。</p>
+<p>最后本文采用<strong>穿刺加密</strong>来保证前向安全性，数据接收者通过穿刺标签来更新密钥，即使攻击者获得了最新的密钥，也不能解密带有穿刺标签的密文。（解密完就穿刺，攻击者获取历史密钥也无法解密）</p>
 <p>该方法特别适用于需要双重匹配的高度机密共享场景。缺乏对应权限的接收者不能得知是否是因为自身权限不匹配密文策略还是DO的属性不满足密钥策略。</p>
 
     
@@ -803,6 +1086,10 @@
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">用户间接撤销</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">注册属性基加密</a>
               </li>
             
             <div class="clearfix"></div>
