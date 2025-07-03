@@ -214,6 +214,252 @@
             
 
   
+    <article id="post-PR-ABE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2025/07/01/PR-ABE/" target="_blank">Puncturable Registered ABE for Vehicular Social Networks：Enhancing Security and Practicality</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2025/07/01/PR-ABE/" class="archive-article-date">
+        <time datetime="2025-07-01T07:47:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-07-01</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>C. Wang, Y. Ming, H. Liu, Y. Deng, M. Yang and J. Feng, “Puncturable Registered ABE for Vehicular Social Networks: Enhancing Security and Practicality,” in IEEE Transactions on Dependable and Secure Computing, 2025.</p>
+<h1 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h1><p>本文提出了一种面向车载社交网络(Vehicular Social Networks，VSNs)的可穿刺注册ABE方案PR-ABE。具体来说，我们的PR-ABE实现了灵活的访问控制和精确的<strong>数据删除</strong>。前者保证只有具有授权属性的注册车辆才能获得共享数据。后者防止密钥泄露发生时的数据泄露。同时，PR-ABE使车辆能够独立生成密钥，不需要任何完全可信的授权机构。此外，PR-ABE还实现了隐藏策略和可追踪性，分别用于保护隐私信息和处理恶意车辆。</p>
+<p>隐藏策略：部分策略隐藏，公开属性名，隐藏属性值</p>
+<p>数据删除：穿刺加密，改变密钥，使穿刺了特定标签的密钥不能解密含此标签的密文</p>
+<p>可追踪：根据解密使用的密钥和辅助密钥追踪到用户ID</p>
+<p>注册ABE：用户自己生成公私钥，防止了密钥托管（未能实现动态注册）</p>
+<h1 id="detail"><a href="#detail" class="headerlink" title="detail"></a>detail</h1><h2 id="初始化阶段"><a href="#初始化阶段" class="headerlink" title="初始化阶段"></a>初始化阶段</h2><p>$Setup(1^λ, Ψ, n)$:</p>
+<ul>
+<li>通用组件：$bp=\{q,\mathbb{G},\mathbb{G}_T,g,e\},\quad Z =e(g,g)^\alpha,\quad h=g^\beta,\quad R = g^γ,\quad Γ = g^θ$ </li>
+<li><p>标签组件：一个特定的标签$τ_d$ 和方案允许的最大标签数量$η$。<br>特定标签向量 $\overrightarrow{x_ d} = (x_{d,1},x_{d,2}, \dots, x_{d,η}) , x_{d,k} = τ^{k−1}_d  $。</p>
+<p>全局标签分量<br>$B_k=g^{b_k} $ ，$ R_d=g^{&lt;\overrightarrow{x_ d},\overrightarrow{b}&gt;} =(  \prod_{k∈[η]} B^{x_{d,k}}_k )^{γ}$。</p>
+</li>
+<li>槽组件： $t_i,c_i,u_{i,w}\in Z_q^*,\quad h_i=g^{t_i},\quad A_i=g ^{\frac{α} { θ+c_i} }h^{\frac{γ}{θ+c_i} +t_i}, E_i=R_d ^{\frac{1}{θ+c_i}}   ,\quad F_i = Γ^{t_i}$ 其中$ θ+c_i$绑定第i个用户，与$t_i$类似，但$c_i$需要公开。</li>
+<li>属性组件： $U_{i,w} = g^{u_{i,w}} ,\quad W_{i,j,w}= h^{u_{j,w}(θ+c_j)}_i ,\quad w ∈Ψ,i\neq j$</li>
+</ul>
+<p>哈希函数H将配对结果变成对称密钥 $ H : \mathbb{G}_T → \{0, 1\} ^{∗} $，和一个初始为空的表Tab用来存注册用户的ID和属性可以用来<strong>追踪恶意车辆</strong>， 最后输出 $ crs = (bp , Z, h, R, Γ, τ_d, H, \{B_k\}_{k∈[η]}, \{(c_i,  h_i, A_i, E_i, F_i)\}_{i∈[n]} , \{U_{i,w}, W_{i,j,w}\}_{i\neq j,w∈Ψ} )$</p>
+<h2 id="注册阶段"><a href="#注册阶段" class="headerlink" title="注册阶段"></a>注册阶段</h2><p>$\mathrm{KeyGen}(crs, i)$:</p>
+<p>$pk_i=g^{d_i}$ </p>
+<p>交叉项： $ξ_i = \{ ξ_{j,i} \}_{j∈[n],j\neq i},ξ_{j,i}=h^{d_i}_j$(也算是公钥的一部分)</p>
+<p>初始密钥$sk_i^{(0)}$包括三个组件</p>
+<ul>
+<li>槽相关密钥$sk_{i,0,1}=h^{d_i}_i A_i h^{v_i}$</li>
+<li>标签相关密钥$sk_{i,0,2} = E_i(  \prod_{k∈[η]} B^{x_{d,k}}_k )^{v_i }=(  \prod_{k∈[η]} B^{x_{d,k}}_k )^{v_i +\frac{γ}{θ+c_i}}$</li>
+<li>追踪相关密钥$sk_{i,0,3} = R(Γg^{c_i})^{v_i}$</li>
+</ul>
+<p><img src=".\\picture\\PR-ABE\\Workflow.png" alt="本地图片" title="工作流程"></p>
+<h2 id="聚合阶段"><a href="#聚合阶段" class="headerlink" title="聚合阶段"></a>聚合阶段</h2><p>$Reg(crs, \{pk_i, ξ_i, S_i\}_{i∈[n]})$:</p>
+<p>当n个用户已完成注册时，进行聚合。</p>
+<p>因为是用户自己生成的公\私钥，云端需检查完公钥和交叉项的有效性</p>
+<p>若用公开参数检查成立后，将收到的$\{c_i, ID_i, S_i\}_{i∈[n]}$存入Tab表中</p>
+<p>之后进行聚合。聚合部分采用了向量承诺的思想，用连乘将每个槽绑定在一起产生一个简短的数，可以针对第i个槽打开验证（交叉项*自己）。</p>
+<ul>
+<li>槽组件： ${T} = \prod_{ i∈[n]} pk_i \quad ,\quad \hat{ξ}_i =\prod_{j \neq i} ξ_{i,j},\quadξ_{j,i} = h^{d_i}_j$</li>
+<li>属性组件： $\hat{U}_w=\prod_{ i∈[n]:w\notin S_i}U_{i,w} \quad ,\quad \hat{W}_{i,w}=\prod_{ j\neq i:w\notin S_j}W_{i,j,w}$</li>
+</ul>
+<p>最后,得到主公钥msk,和token。</p>
+<script type="math/tex; mode=display">mpk = (bp , Z, h, R, Γ, τ_d, H, \{B_k\}_{k∈[η]}, T, \{\hat{U}_w\}_{w∈Ψ}  )</script><script type="math/tex; mode=display">tok_i = (c_i,  h_i, F_i, \hat{ξ}_i, \{\hat{W}_{i,w}\}_{w∈Ψ} ).</script><p>一个聚合的例子<br><img src=".\\picture\\PR-ABE\\Reg_exp.png" alt="本地图片" title="聚合示例"></p>
+<h2 id="加密阶段"><a href="#加密阶段" class="headerlink" title="加密阶段"></a>加密阶段</h2><p>$\mathrm{Encrypt}(mpk, (M, ρ,S_i), μ,D_μ)$:</p>
+<ul>
+<li>消息嵌入组件： $C_1 = (\mu ||s’) ⊕ H(Z^s)$,将配对结果变成一个对称密钥。</li>
+<li>存放秘密数组件：$C_2 = g^s$， $C_6 = Γ^s$</li>
+<li>属性组件：$\{C_{3,ω} = h_x^{φ_ω} \hat{U}_{ρ(ω)}^{−s} \}_{ω∈[l]}$，l是访问策略矩阵的行数。</li>
+<li>槽组件：$C_4 = h^s_yT^{−s}$，$h_x · h_y^{−1} = h$</li>
+<li>标签组件：$\{C_{5,k} = (h^{\mathcal{V}_k} B_k)^s\}_{k∈[η]}$,</li>
+<li>验证组件：$C_7 = g^μ Γ^{s’}$</li>
+</ul>
+<p>其中的标签相关组件中的$\mathcal{V}_k$，是通过构造多项式$f_D(z)$的系数,根就是所有标签$f_D(z) = \prod {\tau \in D_μ}=\sum^{m}_{k=0} \mathcal{V}_kz_k$</p>
+<h2 id="密钥更新"><a href="#密钥更新" class="headerlink" title="密钥更新"></a>密钥更新</h2><p>$KeyUpt(sk^{(π−1)}_i , pt^{(π−1)}_i , τ_π)$:</p>
+<p>当存储的数据不再使用时，DO能够更新密钥，使得带指定标签密文不能被解密，以此实现数据删除。</p>
+<p>更新密钥时，首先需要检查指定标签是否在已穿刺标签集合$pt^{(π−1)}_i$中，若不存在则继续更新</p>
+<p>要将初始密钥进行更新，并生成第$\pi$轮密钥。每次更新只在密钥上穿刺一个标签。</p>
+<p><img src=".\\picture\\PR-ABE\\up_sk.png" alt="本地图片" title="密钥"></p>
+<h2 id="解密部分"><a href="#解密部分" class="headerlink" title="解密部分"></a>解密部分</h2><p>$Dec(CT, D_μ, tok_i, sk^{(π)}_i , pt^{(π)}_i )$:</p>
+<p>(一) 云端先计算一个中间密钥$δ_0$，目的是让C3,C4在云端就进行属性匹配和槽匹配。</p>
+<p>并将 $\{ C_1,C_2,\{ C_{5,K} \}_{ K∈[ η]},C_6,C_7,δ_0,D_μ \}$</p>
+<script type="math/tex; mode=display">δ_0 = \frac{e(C^{c_i}_2 C_6, \hat{ξ}_i )e(C_4, h^{c_i}_i F_i)}{\prod_{ω∈I} (e(C_{3,ω}, h^{c_i}_iF_i)e(C_2, \hat{W}_{i,ρ(ω)}))^{λ_ω}}</script><p>公式中分母部分：$W$和$C_3$中的$U$相抵消，$C_2$提供$s$, $h^{c_i}_i F_i$提供了$ θ+c_i$，最后结果为$e(h^s_x, h^{(θ+ci)}_i )$和分子对应的$h_y$部分相抵消。</p>
+<p>中间密文$δ_0$最后结果为$e(g^{−s(θ+c_i)}, h^{d_i} _i )e(h, h_i)^{−s(θ+c_i)}$。</p>
+<p>（二）用户解密密文</p>
+<ul>
+<li>使用初始密钥$sk_i^{(0)}$解密中间密文</li>
+</ul>
+<p>$Z_0 = δ_0e(C^{c_i} _2 C_6, sk_{i,0,1}sk^{\frac{1}{χ_d}}_ {i,0,2})· e(  \prod_{k∈[η]} C^{ x_d,k}_{5,k}, sk^{\frac{-1}{χ_d}}_ {i,0,3})$，</p>
+<script type="math/tex; mode=display">χ_d=<\overrightarrow{x_d},\overrightarrow{\mathcal{V}}></script><p>最后计算结果为$Z_0= e(g^{s(θ+c_i)}, g^{\frac{α} { θ+c_i}-\sum_{u∈[π] \overline{\omega} _u}}    )$</p>
+<p>可以看到这部分中，用户利用$χ_d$将密文C5中的标签消除了，但仍包含了密钥更新中的随机数，$sk_{i,1}^{(0)}$中每穿刺一次就会乘上一个随机数。</p>
+<ul>
+<li>使用第1-$\pi$轮密钥解密</li>
+</ul>
+<p>$Z_u = e(C^{c_i} _2 C_6, sk_{i,u,1}sk^{\frac{1}{χ_u}}_ {i,u,2})· e(  \prod_{k∈[η]} C^{ x_u,k}_{5,k}, sk^{\frac{-1}{χ_u}}_ {i,u,3})_{u \in [\pi]}$，</p>
+<p>形式与$Z_0$类似，将特定标签换成穿刺标签</p>
+<p>最后计算结果为$Z_u= e(g^{s(θ+c_i)}, g^{\ \overline{\omega} _u}  )$</p>
+<ul>
+<li>合并结果完成解密</li>
+</ul>
+<p>$Z’= Z_0 \prod_{u∈[π]} Z_u=Z^s$</p>
+<ul>
+<li>进行验证</li>
+</ul>
+<p>对等式$g^μΓ^{s′}_1 = C_7$进行验证</p>
+<p>验证成功则返回结果$μ||s’ = C1 ⊕ H(Z’)$</p>
+<h2 id="可追踪部分"><a href="#可追踪部分" class="headerlink" title="可追踪部分"></a>可追踪部分</h2><p>$Tra(sk^{(π)}_i , mpk, tok_i, Tab) → ID_i$:</p>
+<p>如果密钥和token满足方程，则云在Tab中搜索$ci$并发布相应的$IDi$。</p>
+<p><img src=".\\picture\\PR-ABE\\trac.png" alt="本地图片" title="密钥"></p>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2025/07/01/PR-ABE/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-MA-RABE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+  
+  
+    <h1 itemprop="name">
+	
+	  <a class="article-title" href="/2025/07/01/MA-RABE/" target="_blank">Multi-authority Registered Attribute-Based Encryption</a>
+  
+    </h1>
+  
+
+
+  
+  
+<a href="/2025/07/01/MA-RABE/" class="archive-article-date">
+        <time datetime="2025-07-01T01:06:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-07-01</time>
+</a>
+
+  
+  
+    
+
+  
+  </header>
+  
+  <div class="article-entry" itemprop="articleBody">
+    
+    <p>G. Lu, S. Hohenberger, B. Waters, and D.J. Wu, “Multi-authority Registered Attribute-Based Encryption,” in Advances in Cryptology (EUROCRYPT). LNCS, vol. 15603, pp. 3–33. Springer, Cham (2025).</p>
+<h1 id="发展脉络"><a href="#发展脉络" class="headerlink" title="发展脉络"></a>发展脉络</h1><p>自2005年ABE（Fuzzy identity-based encryption）被提出以来。属性基加密（ABE）是公钥加密的一种推广，可以实现对加密数据的细粒度访问控制。</p>
+<p>Garg等人（TCC18）引入了基于注册的加密( RBE )的概念，基于注册的密码学的概念也被扩展到attribute-based encryption、functional encryption、broadcast encryption和traitor tracing的设置中。</p>
+<p>Hohenberger等人(EUROCRYPT23)引入了注册属性基加密（RAB）的概念，</p>
+<p>多授权机构ABE，Lewko和Waters (EUROCRYPT11)的完全去中心化方案允许任何人都是权威机构，并且不需要权威机构之间的任何交互</p>
+
+    
+
+    
+
+    
+
+  </div>
+  <div class="article-info article-info-index">
+    
+    
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">注册属性基加密,多权威机构</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+    
+
+    
+    <p class="article-more-link">
+      <a class="article-more-a" href="/2025/07/01/MA-RABE/">展开全文 >></a>
+    </p>
+    
+
+    
+    <div class="clearfix"></div>
+  </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-RABE" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -268,7 +514,7 @@
 <li>对中央权威机构问责，引入IBE和传统公钥目录相结合的混合概念</li>
 </ul>
 <p>然而，这些方法都没有完全消除IBE和ABE等概念所固有的私钥托管。</p>
-<p>文献从CDH或LWE等假设出发，给出了一个完全有效的构造。现有的构造都依赖于非黑盒密码学的使用。</p>
+<p>Garg等人（TCC18）提出了基于注册的加密方案。他们提供了两种方案。第一个方案是使用不可区分混淆和某处统计绑定哈希函数构造的。另一个方案使用哈希精选费构造，从CDH或LWE等假设出发，给出了一个完全有效的构造，但效率相对较低。Cong等人（IMACC 2021）随后改进了他们方案的具体效率。随后，Goyal和Vusirikala （CRYPTO 2020）给出了如何增强RBE以抵御恶意密钥策展者的方法。现有的构造都依赖于非黑盒密码学的使用。</p>
 <h1 id="Technical-Overview"><a href="#Technical-Overview" class="headerlink" title="Technical Overview"></a>Technical Overview</h1><p>我们的注册ABE的构建分两步进行。</p>
 <p>首先，我们定义并构造了一个我们称之为中间原语，slotted registered ABE。然后，我们展示了如何将一个槽注册ABE方案变化为一个注册ABE方案。</p>
 <h2 id="槽注册ABE"><a href="#槽注册ABE" class="headerlink" title="槽注册ABE"></a>槽注册ABE</h2><p>在一个slotted registered ABE方案中，指定了一个固定的用户数$L$，每个用户都对应了一个槽索引$i$。在这个方案中并非是每个用户依次注册，而是将$L$个用户的公钥和属性集作为输入，输出主公钥和每个用户对应的辅助解密密钥。</p>
@@ -351,7 +597,7 @@
 <p>每一个槽注册ABE都进行初始化，输出$crs=(crs_0,\cdots,crs_l)$。</p>
 <p>（二） $\mathrm{KeyGen}(crs, aux)$:</p>
 <p>采用的还是底层的$\mathrm{KeyGen}(crs,i)$算法，不过槽索引$i$，要通过ctr计算得到$i_k=(ctr \mod 2^k)+1$,即注册用户在每一个槽方案中都要进行注册。</p>
-<p>$1               \hspace{16em}                 2$<br>$1,\backslash             \hspace{15em}                1,2$<br>$1,\backslash ,\backslash,\backslash       \hspace{13em}         1,2,\backslash,\backslash$<br>$1,\backslash ,\backslash,\backslash,\backslash,\backslash,\backslash,\backslash    \hspace{9.5em}  1,2,\backslash,\backslash,\backslash,\backslash,\backslash,\backslash$</p>
+<p>$1               \hspace{16em}                 1$<br>$1,\backslash             \hspace{15em}                1,2$<br>$1,\backslash ,\backslash,\backslash       \hspace{13em}         1,2,\backslash,\backslash$<br>$1,\backslash ,\backslash,\backslash,\backslash,\backslash,\backslash,\backslash    \hspace{9.5em}  1,2,\backslash,\backslash,\backslash,\backslash,\backslash,\backslash$</p>
 <p>输出$pk=(ctr,pk_0,\cdots,pk_l),sk=(ctr,sk_0,\cdots,sk_l)$，即生成注册用户在每一个槽方案下公\私钥</p>
 <p>（三）$\mathrm{ RegPK}(crs, aux, pk, S_{pk})$:</p>
 <ul>
@@ -363,11 +609,22 @@
 <li>更新$mpk=(ctr_{aux}+1,mpk’_0,\cdots,mpk’_l)$,更新所有槽的主公钥，没有聚合过则不变。</li>
 <li>最后算法输出mpk和$aus’=(ctr_{aux}+1,D_1,D_2,mpk’)$</li>
 </ul>
-<p>（四）$\mathrm{Encrypt}(mpk, (M, ρ), μ)$:</p>
+<p>槽满则清空，并将槽上的密钥清除</p>
+<p> 例子</p>
+<p>$mpk=(1,mpk’_0,\cdots,0),ctr_{aux}=1,D_1[k,i_k]=(pk_k,S_k),D_2[0,1]=hsk’_{0,1}$ ,<br>$mpk=(2,mpk_0’,mpk_1’,\cdots,0),D_1[k,i_k]=(pk_k,S_k),D_2[1,1]=hsk’_{1,1},D_2[1,2]=hsk’_{1,2}$</p>
+<p>0011，0101<br>所以注册结束是的状态可以看作用户二进制表示，0001，0010，有1表示第一个槽方案槽满<br>（四）$\mathrm{Encrypt}(mpk, (M, ρ), μ)$:</p>
 <p>在每一个mpk不为空的槽方案上使用加密算法进行加密，若mpk为空也输出空；最后输出$ct=(ctr,ct_0,\cdots,ct_l)$。</p>
+<p>$ct=(1,ct_0,\cdots,0)$<br>$ct=(2,ct_0,ct_1’,\cdots,0)$</p>
 <p>（五）$\mathrm{Update}(crs,aux,pk)$:</p>
 <p>每次有新的用户注册成功，会产生新的主密钥；已注册用户就需要更新辅助解密密钥才能正常进行解密。(单用户更新)若$ctr_{pk}&lt;ctr_{aux}$，则说明还未进行更新，已注册用户更新每个槽方案给自己的$hsk_{k}=D_2[k,(ctr_{pk}+1)]$，最终得到$hsk = (hsk_0, \cdots, hsk_l )$.</p>
+<p>$ctr_{pk}=0&lt;ctr_{aux}=1\quad hsk=(hsk_{0,1}’,\cdots,0)$<br>$ctr_{pk}=0&lt;ctr_{aux}=2\quad hsk=(hsk_{0,1}’,hsk’_{1,1},\cdots,0)$<br>$ctr_{pk}=1&lt;ctr_{aux}=2\quad hsk=(hsk’’_{0,1},hsk’_{1,2},\cdots,0)$</p>
 <p>（六）$\mathrm{Decrypt}(sk, hsk, ct)$:</p>
+<p>说明用户注册晚于密文生成，无法解密。</p>
+<p>若$ctr_{ct}密文版本&gt;ctr_{sk}用户序号$</p>
+<p>$ctr_{ct}=0010&gt;ctr_{sk}=0$，找到二进制下有差异的最高位数k,进行解密算法。</p>
+<p>用户索引与版本号在二进制最大不同位</p>
+<p>加密对所有方案加密，解密只对一个槽方案解密</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">graph TB</span><br><span class="line"></span><br><span class="line">1((A))---2((1-4))---4((1-2))---8((0001))</span><br><span class="line">3((5-8))---6((5-6))---12((0101))</span><br><span class="line">2---5((3-4))---10((0011))</span><br><span class="line">3---7((7-8))---14((0111))</span><br><span class="line">4---9(( 0010))</span><br><span class="line">5---11(( 0100))</span><br><span class="line">6---13((0110))</span><br><span class="line">7---15((1000))</span><br><span class="line">%%右子树</span><br><span class="line">1((1))---3((4))</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
     
 
@@ -1085,11 +1342,15 @@
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">注册属性基加密</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">用户间接撤销</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">注册属性基加密</a>
+                <a href="javascript:void(0)" class="js-tag color4">注册属性基加密,多权威机构</a>
               </li>
             
             <div class="clearfix"></div>
